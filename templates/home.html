@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+
+{% block title %} My awesome Django app {% endblock %}
+    
+{% block body %}
+    <h2 class="text-center my-4 py-3 my-posts display-2 text-light">My Posts</h2>
+    <div class="row">
+    {% for post in posts %}  
+        <div class="col-sm-6 col-md-3">
+            <div class="card my-3 shadow-lg border-0">
+                {% thumbnail post.image "200x200" crop="center" as im %}
+                <img src="{{ im.url }}" class="card-img-top" alt="...">
+                {% endthumbnail %}
+                
+                <div class="card-body">
+                    <p class="card-text">{{ post.text }}</p>
+                    <a href="{% url 'feed:detail' post.id %}" class="btn btn-outline-success">Full image view</a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-sm-8 col-md-6 mx-auto text-center my-5 py-5" >
+            <h3>Welcome!</h3>
+            <p class="display-4 text-light">Add your first image?</p>
+            <a href="{% url 'feed:post' %}" class="btn btn-lg btn-outline-success">Upload Image</a>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
